@@ -1,33 +1,48 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+import { allDataRemove, removeItemDB } from '../utilis/fakeDB';
 import CartItem from './Cards/CartItem';
+import { CartArryContext } from '../App';
+// import { cartContext } from '../App';
 
 
-const Cart = () => {
-    const { cartArry } = useLoaderData()
+const cart = () => {
+   const [cart,setCart] = useContext(CartArryContext)
     let total = 0;
-    if(cartArry.length > 0){
-        for(const product of cartArry){
+    if(cart.length > 0){
+        for(const product of cart){
             total = total + product.price * product.quantity;
         }
+    }
+
+    // remove item
+    const removeItem = id =>{
+        removeItemDB(id)
+    }
+
+    // all data remove
+    const handleClearAllData = ()=>{
+        allDataRemove()
     }
     return (
         <div className="flex min-h-screen items-start justify-center bg-gray-100 text-gray-900">
             <div className="flex flex-col space-x-2 sm:p-10">
                 <h2 className="text-3xl font-semibold">
-                   {cartArry.length ? 'Review Items': 'cart is EMPTY'}
+                   {cart.length ? 'Review Items': 'cart is EMPTY'}
                 </h2>
                 <ul className='flex flex-col divide-y divide-gray-700'>
-                   {cartArry.map(product =>(
-                    <CartItem key={product.id} product={product}></CartItem>
+                   {cart.map(product =>(
+                    <CartItem key={product.id} product={product} removeItem={removeItem}></CartItem>
                    ))}
                 </ul>
                 <div className='space-y-2 text-right'>
                     <p>Total Amount :<span className='font-semibold'>{total}</span></p>
                 </div>
                 <div className='flex space-x-4 justify-end'>
-                    <button className='btn-outlined'>clear cart</button>
+                    {cart.length > 0 ? <button onClick={handleClearAllData} className='btn-outlined'>clear cart</button>:
+                    <Link to='/shop'><button className='btn-outlined'>Back To Shop</button></Link>
+                    }
                     <button className='btn-primary'>pls order</button>
                 </div>
             </div>
@@ -35,4 +50,4 @@ const Cart = () => {
     );
 };
 
-export default Cart;
+export default cart;

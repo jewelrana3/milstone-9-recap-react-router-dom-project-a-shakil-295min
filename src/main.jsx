@@ -15,13 +15,14 @@ const router = createBrowserRouter([
         path:'/',
         element:<App></App>,
         errorElement:<ErrorPage></ErrorPage>,
+        loader:addDataCart,
         children:[
            {
                 path:'/',
                 element:<Home></Home>
             },
             {
-                path:'shop',
+                path:'/shop',
                 element:<Shop></Shop>,
                 loader:()=> fetch('products.json')
             },
