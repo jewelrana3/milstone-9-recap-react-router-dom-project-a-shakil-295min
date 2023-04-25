@@ -10,6 +10,8 @@ import Shop from './components/Shop'
 import Cart from './components/Cart'
 import { addDataCart } from './loaders/getCartDtata'
 
+import { Toaster } from 'react-hot-toast'
+
 const router = createBrowserRouter([
     {
         path:'/',
@@ -41,5 +43,8 @@ const router = createBrowserRouter([
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+   <>
+    <Toaster />
     <RouterProvider router={router}></RouterProvider>
+   </>
 )
